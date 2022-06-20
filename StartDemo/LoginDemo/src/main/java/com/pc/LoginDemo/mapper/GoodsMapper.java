@@ -42,9 +42,7 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     /**
      * 减少库存
-     * @param goodInfo 秒杀的库存信息
-     * @return 1
-     * */
+     * @param goodInfo 秒杀的库存信息 */
     @Update("update miaosha_goods set stock_count = stock_count-1 where goods_id = #{goodsId}")
-    int reduceStock(MiaoshaGoods goodInfo);
+    void reduceStock(MiaoshaGoods goodInfo);
 }

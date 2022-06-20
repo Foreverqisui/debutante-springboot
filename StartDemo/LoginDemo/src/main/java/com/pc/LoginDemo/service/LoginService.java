@@ -45,7 +45,16 @@ public interface LoginService extends IService<LoginTable> {
     /**
      * 秒杀订单 扣除money
      * @param uid 学号
-     * @return 是否扣除
+     * @param goodsId 商品id
+     * @return -1 扣钱失败 其它是剩余余额
      * */
-    int reducePropertyByUid(String uid);
+    int reducePropertyByUid(Integer uid,Long goodsId);
+
+    /**
+     * 更新用户头像
+     * @param uid 用户学号
+     * @param goodsImg 头像路径
+     * @return 更新是否成功状态码 2000：成功 4000：失败
+     * */
+    int updatePictureOss(Integer uid,String goodsImg);
 }

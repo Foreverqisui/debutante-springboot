@@ -17,12 +17,12 @@ public class JobTask {
     @Autowired
     LoginService loginService;
 
-    //在每周五十点十分进行更新操作
+    //在每周六十点十分进行更新操作
 
-    @Scheduled(cron = "0 51 14 ? * FRI")
+    @Scheduled(cron = "0 10 22 ? * SAT")
     public void jobTask(){
         LoginTable loginTable = new LoginTable();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 36; i++) {
             loginTable.setId(i);
             loginService.updateStatus(loginTable);
         }

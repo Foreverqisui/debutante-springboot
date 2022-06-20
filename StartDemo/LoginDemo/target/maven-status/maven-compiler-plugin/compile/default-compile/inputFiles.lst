@@ -22,6 +22,7 @@ D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\
 D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\config\RabbitMqConfig.java
 D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\mapper\GoodsMapper.java
 D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\service\rabbitmq\MQSender.java
+D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\entity\vo\SecKillMessageVo.java
 D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\service\MiaoshaGoodsService.java
 D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\service\LoginService.java
 D:\尚硅谷项目\MyProject\Debutante\StartDemo\LoginDemo\src\main\java\com\pc\LoginDemo\service\MiaoshaOrderService.java

@@ -59,4 +59,6 @@ public class LoginTable implements Serializable {
     private String pictureoss;
 
     private Integer property;
+
+    private Integer tagStatus;
 }

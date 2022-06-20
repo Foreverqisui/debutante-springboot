@@ -27,9 +27,10 @@ public class OrderInfoController {
      * */
     @GetMapping("/getOrderInfo")
     public ResultBack getOrderInfoByUId(
-            @RequestParam Integer uid
+            @RequestParam Integer uid,
+            @RequestParam Long goodsId
     ){
-        OrderInfo info = orderInfo.getByUId(uid);
+        OrderInfo info = orderInfo.getByUId(uid,goodsId);
         return ResultBack.ok().data("orderInfo",info);
     }
 }

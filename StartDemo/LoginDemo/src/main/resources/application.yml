@@ -21,6 +21,7 @@ spring:
   redis:
     host: 123.56.156.8
     port: 6379
+    password: pance521
     # 超时等待时间
     timeout: 1000
     jedis:

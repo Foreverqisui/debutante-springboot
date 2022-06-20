@@ -10,13 +10,11 @@ import com.pc.LoginDemo.service.MiaoshaGoodsService;
 import com.pc.LoginDemo.service.OrderInfoService;
 import com.pc.result.ResultBack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>
- * 前端控制器
- * </p>
- *
+ * 未优化的秒杀
  * @author pc
  * @since 2022-05-28
  */
@@ -27,21 +25,29 @@ public class MiaoshaGoodsController {
 
     /**
      * 商品服务 用来获取库存
-     * */
+     */
     @Autowired
     private GoodsService goodsService;
 
     /**
      * 订单服务 用来获取订单状态
-     * */
+     */
     @Autowired
     private OrderInfoService orderService;
 
     /**
      * 秒杀库存的服务 用来做库存更改的操作
-     * */
+     */
     @Autowired
     private MiaoshaGoodsService miaoShaService;
+
+    /**
+     * redis缓存 用来获取订单信息
+     * */
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+
     /**
      * 秒杀订单处理
      */
@@ -59,14 +65,21 @@ public class MiaoshaGoodsController {
         if (stockCount <= 0) {
             return ResultBack.error().data("questionStatus", 500);
         }
-        //判断是否秒杀到
-        MiaoshaOrder order =  orderService.getMiaoShaOrderInfo(uid, goodsId);
-        if(order!=null){
-            return ResultBack.ok().data("questionStatus",666);
+
+        //借助redis缓存 提取 用户订单信息 判断是否秒杀过
+        Object secKillOrder =  redisTemplate.opsForValue().get("order:" + uid + ":" + goodsId);
+        if (secKillOrder != null) {
+            return ResultBack.ok().data("questionStatus", 666);
         }
+
+        /*MiaoshaOrder order = orderService.getMiaoShaOrderInfo(uid, goodsId);
+        if (order != null) {
+            return ResultBack.ok().data("questionStatus", 666);
+        }*/
+
         //减少库存 下订单 写入秒杀订单
-        OrderInfo orderInfo =  miaoShaService.miaoSha(uid,goods);
-        return ResultBack.ok().data("orderInfo",orderInfo);
+        OrderInfo orderInfo = miaoShaService.miaoSha(uid, goods);
+        return ResultBack.ok().data("orderInfo", orderInfo);
     }
 }
 

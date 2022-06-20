@@ -5,6 +5,7 @@ com\pc\LoginDemo\service\impl\GoodsServiceImpl.class
 com\pc\LoginDemo\service\LoginService.class
 com\pc\LoginDemo\job\JobTask.class
 com\pc\LoginDemo\service\MiaoshaOrderService.class
+com\pc\LoginDemo\entity\vo\SecKillMessageVo.class
 com\pc\LoginDemo\entity\Goods.class
 com\pc\LoginDemo\service\rabbitmq\MQReceiver.class
 com\pc\LoginDemo\entity\vo\GoodsVo.class

@@ -6,12 +6,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pc.LoginDemo.aspect.AspectLog;
 import com.pc.LoginDemo.entity.LoginTable;
+import com.pc.LoginDemo.entity.OrderInfo;
+import com.pc.LoginDemo.entity.vo.GoodsVo;
+import com.pc.LoginDemo.service.GoodsService;
 import com.pc.LoginDemo.service.LoginService;
+import com.pc.LoginDemo.service.OrderInfoService;
+import com.pc.LoginDemo.service.impl.GoodsServiceImpl;
 import com.pc.common.Jwt;
 import com.pc.result.ResultBack;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +39,10 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private OrderInfoService orderInfoService;
 
     static Logger logger=Logger.getLogger(AspectLog.class);
     /**
@@ -103,12 +113,15 @@ public class LoginController {
 
     /**
      * 上传照片提交时间并改变状态码
+     * 新功能:每次提交增加50property
      * */
     @PostMapping("uploadTime")
     public ResultBack upLoadTime(@RequestBody LoginTable loginTable){
         loginTable.setUploadtime(new Date());
         loginTable.setStatus("1");
-        loginService.updateById(loginTable);
+        //每次提交截图后+50 property
+        loginTable.setProperty(loginTable.getProperty()+50);
+        boolean n = loginService.updateById(loginTable);
         return ResultBack.ok();
     }
 
@@ -134,20 +147,43 @@ public class LoginController {
     }
     /**
      * 秒杀后 扣除money
-     * TODO 没有限制扣钱，会一直发送扣钱请求 没有做状态码的管理 前端只能收到剩余钱数
+     * @param uid 学号
+     * @param goodsId 商品id
+     * @return 用户信息
      * */
-    @PostMapping("/reduceProperty/{uid}")
-    public ResultBack reducePropertyByUid(@PathVariable String uid){
-        int res = loginService.reducePropertyByUid(uid);
-        return ResultBack.ok().data("remainder",res);
-    }
-    /**
-     * 测试sql注入
-     * */
-    @GetMapping("/sqlmap")
-    public ResultBack sqlmap(@RequestParam String id, @RequestParam String password){
-        LoginTable byId = loginService.getById(id);
-        return ResultBack.ok().data("sql",byId);
+    @PostMapping("/reduceProperty/{uid}/{goodsId}")
+    public ResultBack reducePropertyByUid(@PathVariable Integer uid,
+                                          @PathVariable Long goodsId){
+        int remainder = loginService.reducePropertyByUid(uid,goodsId);
+        //判断扣钱是否成功
+        if(remainder==-1){
+            //扣钱失败
+            logger.warn("扣钱失败，因为你穷，返回5000");
+            return ResultBack.error().data("questionStatus",5000);
+        }
+        //扣钱成功后 根据goodsId获取商品图片
+        GoodsVo goodsInfo = goodsService.getByGoodsId(goodsId);
+        String goodsImg = goodsInfo.getGoodsImg();
+        //做是否支付过的判断
+        OrderInfo orderInfo = orderInfoService.getByUId(uid, goodsId);
+        //获取订单状态  0:已支付 1:未支付
+        Integer status = orderInfo.getStatus();
+        //已支付
+        if (status == 0){
+            //返回2001状态码 表示已经支付
+            return ResultBack.ok().data("questionStatus",2001);
+        }
+        //更新状态码
+        orderInfoService.updateStatus(uid,goodsId);
+        //将商品图片放入用户的pictureoss中
+        int res = loginService.updatePictureOss(uid, goodsImg);
+        if (res==2000){
+            Map<String, Integer> map = new HashMap<String, Integer>();
+            map.put("remainder",remainder);
+            map.put("status",res);
+            return ResultBack.ok().data("questionStatus",map);
+        }
+        return ResultBack.error().data("questionStatus",5000);
     }
 }
 

@@ -155,9 +155,8 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginTable> imple
      */
     @Override
     public void updateStatus(LoginTable loginTable) {
-        loginTable.setStatus("1");
+        loginTable.setStatus("0");
         baseMapper.updateById(loginTable);
-        System.out.println(loginTable);
     }
 
     @Autowired
@@ -166,10 +165,11 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginTable> imple
      * 秒杀订单 扣除money
      *
      * @param uid 学号
-     * @return 是否扣除
+     * @param goodsId 商品id
+     * @return -1 扣钱失败 其它是剩余余额
      */
     @Override
-    public int reducePropertyByUid(String uid) {
+    public int reducePropertyByUid(Integer uid,Long goodsId) {
         int res = 0;
         //构建条件
         QueryWrapper<LoginTable> query = new QueryWrapper<>();
@@ -179,7 +179,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginTable> imple
         LoginTable loginTable = baseMapper.selectOne(query);
         //获取财产 判断是否足够扣除
         Integer myProperty = loginTable.getProperty();
-        Integer goodProperty = orderInfo.getByUId(Integer.valueOf(uid)).getGoodsPrice();
+        Integer goodProperty = orderInfo.getByUId(uid, goodsId).getGoodsPrice();
         if (myProperty<goodProperty){
             return -1;
         }else{
@@ -188,5 +188,28 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginTable> imple
         }
         baseMapper.update(loginTable, query);
         return res;
+    }
+
+    /**
+     * 更新用户头像
+     *
+     * @param uid      用户学号
+     * @param goodsImg 头像路径
+     * @return 更新是否成功状态码 2000：成功 4000：失败
+     */
+    @Override
+    public int updatePictureOss(Integer uid,String goodsImg) {
+        //构建条件
+        QueryWrapper<LoginTable> query = new QueryWrapper<>();
+        //根据uid 获取信息
+        query.eq("uid",uid);
+        LoginTable loginTable = baseMapper.selectOne(query);
+        //对是否提交截图做判断
+        if ("1".equals(loginTable.getStatus())){
+            loginTable.setPictureoss(goodsImg);
+            baseMapper.update(loginTable,query);
+            return 2000;
+        }
+        return 4000;
     }
 }

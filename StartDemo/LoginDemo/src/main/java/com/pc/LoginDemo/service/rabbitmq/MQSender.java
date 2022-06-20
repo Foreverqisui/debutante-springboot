@@ -16,8 +16,11 @@ public class MQSender {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public void send(Object msg){
-        log.info("发送消息:"+msg);
-        rabbitTemplate.convertAndSend("queue",msg);
+    /**
+     * 借助mq进行秒杀信息的发送
+     * */
+    public void sendSeckillMessage(String msg){
+        rabbitTemplate.convertAndSend("secKillExchange",
+                "queue.message",msg);
     }
 }

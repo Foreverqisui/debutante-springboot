@@ -7,6 +7,8 @@ import com.pc.LoginDemo.mapper.GoodsMapper;
 import com.pc.LoginDemo.service.GoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

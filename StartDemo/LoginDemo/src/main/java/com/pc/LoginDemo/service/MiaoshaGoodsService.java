@@ -23,4 +23,14 @@ public interface MiaoshaGoodsService extends IService<MiaoshaGoods> {
      * @return 订单信息
      * */
     OrderInfo miaoSha(Integer user, GoodsVo goods);
+
+    /**
+     * 在之前已经发送mq队列 去 下订单
+     * 通过uid和goodsId获取秒杀结果
+     * 为了后续判断是否秒杀成功
+     * @param uid 用户id
+     * @param goodsId 商品id
+     * @return 状态号 1：成功 -1为失败
+     * */
+    Long getResultBy(Integer uid, Long goodsId);
 }

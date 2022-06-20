@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @author testjava
  * @since 2022-04-03
  */
-@Mapper
+@Repository
 public interface LoginMapper extends BaseMapper<LoginTable> {
 
 }

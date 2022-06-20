@@ -45,15 +45,18 @@ public class AspectLog {
     @Before("pointcut()")
     public void before(JoinPoint joinPoint){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        assert requestAttributes != null;
-        HttpServletRequest request = requestAttributes.getRequest();
-        //ip地址
-        String remoteHost = request.getRemoteHost();
-        //登陆时间
-        String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        //访问方法
-        String target = joinPoint.getSignature().getDeclaringType() + "." + joinPoint.getSignature().getName();
-        logger.info(String.format("用户[%s],在[%s],访问了[%s]",remoteHost,date,target));
+        //为空判断
+        HttpServletRequest request = null;
+        if (requestAttributes != null) {
+            request = requestAttributes.getRequest();
+            //ip地址
+            String remoteHost = request.getRemoteHost();
+            //登陆时间
+            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            //访问方法
+            String target = joinPoint.getSignature().getDeclaringType() + "." + joinPoint.getSignature().getName();
+            logger.info(String.format("用户[%s],在[%s],访问了[%s]",remoteHost,date,target));
+        }
     }
     /**
      * 切点之后

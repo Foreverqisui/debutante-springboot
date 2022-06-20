@@ -22,7 +22,7 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
      * 查询是否存在秒杀订单
      * @param uid 用户id
      * @param goodsId  货物id
-     * @return 订单信息
+     * @return 秒杀订单信息
      * */
     @Select("select * from miaosha_order where user_id=#{uid} and goods_id=#{goodsId} ")
     MiaoshaOrder getOrderInfo(Integer uid, long goodsId);
@@ -33,4 +33,10 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
     @Insert("insert into miaosha_order(user_id,order_id,goods_id) " +
             "values (#{userId},#{orderId},#{goodsId})")
     void insertMiaoShaOrder(MiaoshaOrder miaoshaOrder);
+
+    /*
+    * 查询orderinfo订单信息
+    * */
+    @Select("SELECT * FROM order_info WHERE user_id = #{uid} AND goods_id = #{goodsId}")
+    OrderInfo getOrderInfoByUid(Integer uid, Long goodsId);
 }
