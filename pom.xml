@@ -7,6 +7,7 @@
         <module>StartDemo</module>
         <module>Common</module>
         <module>Oss</module>
+        <module>ForumDemo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

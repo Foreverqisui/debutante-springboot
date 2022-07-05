@@ -2,14 +2,15 @@ package com.pc.LoginDemo.service.impl;
 
 import com.aliyuncs.utils.StringUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.pc.LoginDemo.common.Jwt;
 import com.pc.LoginDemo.entity.LoginTable;
 import com.pc.LoginDemo.mapper.LoginMapper;
 import com.pc.LoginDemo.service.LoginService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pc.LoginDemo.service.OrderInfoService;
-import com.pc.common.Jwt;
 import com.pc.common.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,6 +18,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -30,6 +32,8 @@ import java.util.List;
 public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginTable> implements LoginService {
 
 
+    @Autowired
+    RedisTemplate<String,String> redisTemplate;
     /**
      * 登录功能的实现
      *
@@ -100,7 +104,7 @@ public class LoginServiceImpl extends ServiceImpl<LoginMapper, LoginTable> imple
         baseMapper.updateById(loginTable1);
         //以list格式返回
         list.add(loginTable);
-        return Jwt.getJwtToken(String.valueOf(loginTable.getId()), loginTable.getUsername());
+        return Jwt.getJwtToken(String.valueOf(loginTable.getId()), loginTable.getUsername(),loginTable.getUserId());
     }
 
 

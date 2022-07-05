@@ -1,8 +1,11 @@
 package com.pc.result;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author foreverqisui
  */
+@Component
 public interface ResultCode {
 
     /**

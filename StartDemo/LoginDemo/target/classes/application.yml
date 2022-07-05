@@ -3,7 +3,7 @@ server:
 spring:
   # 名称
   application:
-    name: service-test
+    name: service-loginTable
   # 模式
   profiles:
     active: dev

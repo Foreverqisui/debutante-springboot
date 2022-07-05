@@ -20,7 +20,7 @@ public class Jwt {
      * 生成token字符串的方法
      * @param id 输入的password值
      * */
-    public static String getJwtToken(String id, String username){
+    public static String getJwtToken(String id, String username,String userId){
 
         String JwtToken = Jwts.builder()
                 //表头设置
@@ -36,6 +36,7 @@ public class Jwt {
                 //设置token主体部分 可加多条
                 .claim("id",id)
                 .claim("username", username)
+                .claim("userId",userId)
 
                 //签名哈希
                 .signWith(SignatureAlgorithm.HS256, APP_SECRET)
@@ -72,5 +73,19 @@ public class Jwt {
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         Claims claims = claimsJws.getBody();
         return (String)claims.get("id");
+    }
+
+    /**
+     * 根据token获取评论用户id
+     * 获取头信息中的token
+     */
+    public static String getIdCommentByJwtToken(HttpServletRequest request) {
+        String jwtToken = request.getHeader("token");
+        if(StringUtils.isEmpty(jwtToken)) {
+            return "";
+        }
+        Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
+        Claims claims = claimsJws.getBody();
+        return (String)claims.get("userId");
     }
 }

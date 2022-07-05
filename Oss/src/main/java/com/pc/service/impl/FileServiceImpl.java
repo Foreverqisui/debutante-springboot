@@ -3,6 +3,7 @@ package com.pc.service.impl;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.pc.service.FileService;
@@ -34,13 +35,11 @@ public class FileServiceImpl implements FileService {
         String bucketName = ConstansOssUtils.BUCKET_NAME;
         //获取文件名称
         String fileName = file.getOriginalFilename();
-
         //把文件按照日期进行分类
         //获取当前日期
         String datePath = new DateTime().toString("yyyy/MM/dd");
         //进行拼接
         fileName = datePath + "/" + fileName;
-        System.out.println(fileName);
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
         try {

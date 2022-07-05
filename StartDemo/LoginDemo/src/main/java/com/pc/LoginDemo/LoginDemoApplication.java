@@ -1,4 +1,4 @@
-package com.pc;
+package com.pc.LoginDemo;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

@@ -21,7 +21,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
-
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -103,9 +102,12 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>2.2.1.RELEASE</version>
         </dependency>
-
-
-
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.60</version>
+        </dependency>
 
         <!--        &lt;!&ndash;   工具类组件     &ndash;&gt;-->
         <!--        <dependency>-->

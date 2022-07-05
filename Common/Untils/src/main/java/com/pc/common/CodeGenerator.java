@@ -28,7 +28,7 @@ public class CodeGenerator {
         // 2、全局配置
         GlobalConfig gc = new GlobalConfig();
 
-        gc.setOutputDir("D:\\尚硅谷项目\\MyProject\\Debutante\\StartDemo\\LoginDemo" + "/src/main/java");
+        gc.setOutputDir("D:\\尚硅谷项目\\MyProject\\Debutante\\ForumDemo" + "/src/main/java");
 
         gc.setAuthor("pc");
         gc.setOpen(false); //生成后是否打开资源管理器
@@ -54,7 +54,7 @@ public class CodeGenerator {
         // 4、包配置
         PackageConfig pc = new PackageConfig();
 
-        pc.setModuleName("LoginDemo"); //模块名
+        pc.setModuleName("ForumDemo"); //模块名
         pc.setParent("com.pc");
         pc.setController("controller");
         pc.setEntity("entity");
@@ -65,7 +65,7 @@ public class CodeGenerator {
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
 
-        strategy.setInclude("miaosha_order");
+        strategy.setInclude("discuss_post");
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 

@@ -60,5 +60,8 @@ public class LoginTable implements Serializable {
 
     private Integer property;
 
+    private String userId;
+
     private Integer tagStatus;
+
 }
