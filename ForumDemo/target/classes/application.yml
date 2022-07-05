@@ -1,0 +1,68 @@
+server:
+  port: 8099
+spring:
+  # 名称
+  application:
+    name: forumDemo
+  # 模式
+  profiles:
+    active: dev
+  # mysql数据库连接
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://123.56.156.8:/debutante?serverTimezone=UTC&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  # 返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # redis配置
+  redis:
+    host: 123.56.156.8
+    port: 6379
+    password: pance521
+    # 超时等待时间
+    timeout: 1000
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 5
+        max-wait: -1
+  rabbitmq:
+    host: 123.56.156.8
+    port: 5673
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        # 消费者最小数量
+        concurrency: 10
+        # 消费者最大数量
+        max-concurrency: 10
+        # 限制消费者每次只处理一条信息
+        prefetch: 1
+        # 启动时是否默认启动容器
+        auto-startup: true
+        # 被拒绝时重新进入队列
+        default-requeue-rejected: true
+    template:
+      retry:
+        # 发布重试
+        enabled: true
+        # 重试时间
+        initial-interval: 1000ms
+        # 重试最大次数 默认3次
+        max-attempts: 4
+        # 重试的间隔
+        max-interval: 10000ms
+        # 重试的间隔乘数
+        multiplier: 1
+
+mybatis-plus:
+  mapper-locations: classpath:com.pc.ForumDemo.mapper/xml/*.xml
+  type-aliases-package: com.pc.ForumDemo.entity
+# nacos服务地址
+#spring.cloud.nacos.discovery.server-addr=127.0.0.1:8848

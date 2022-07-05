@@ -1,5 +1,0 @@
-com\pc\service\FileService.class
-com\pc\OssApplication.class
-com\pc\service\impl\FileServiceImpl.class
-com\pc\until\ConstansOssUtils.class
-com\pc\controller\FileApiController.class

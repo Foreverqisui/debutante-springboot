@@ -1,7 +1,0 @@
-com\pc\common\CodeGenerator.class
-com\pc\result\ResultBack.class
-com\pc\result\ResultCode.class
-com\pc\common\MD5.class
-com\pc\common\Jwt.class
-com\pc\common\Swagger2Config.class
-com\pc\LoginDemoApplication.class
